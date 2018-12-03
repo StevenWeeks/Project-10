@@ -1,3 +1,23 @@
+﻿To run this project:
+Make sure to have all neccasary programs installed; mongoDB,  npm.
+Open three command prompts, direct two of the prompts to the api folder and the third prompt to the client folder.
+
+run NPM install on one api prompt and the client folder.
+  
+after all required installs are finished, run mongod on one of the api prompts, wait for it to load then run npm start on the second api prompt.
+
+lastly run npm start on the client prompt.
+
+I couldn't get the user to remain logged in after a browser refresh.  And I couldn't figure out how to cut down from three command prompts.
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
