@@ -47,20 +47,7 @@ class UpdateCourses extends Component {
     }
   })
 }
-// these are called when the submit button is hit, it sets the state of the
-// items as seen, with the value of the text in the inputs/textareas.
-  Desc = e => {
-    this.setState({ description: e.target.value })
-  }
-  Mats = e => {
-    this.setState({ materialsNeeded: e.target.value })
-  }
-  Time = e => {
-    this.setState({ estimatedTime: e.target.value })
-  }
-  Title = e => {
-    this.setState({ title: e.target.value })
-  }
+
 
 // setup for a redirect used when the cancel button is clicked.  Sends user back to Courses
 setRedirect = () => {
@@ -104,7 +91,12 @@ this.props.history.push(`/courses/${this.state.id}`)
     }
   })
 }
-
+// these are called when the submit button is hit, it sets the state of the
+// items as seen, with the value of the text in the inputs/textareas.
+  Desc = e => { this.setState({ description: e.target.value }) }
+  Mats = e => { this.setState({ materialsNeeded: e.target.value }) }
+  Time = e => { this.setState({ estimatedTime: e.target.value }) }
+  Title = e => { this.setState({ title: e.target.value }) }
 
 handleSubmit = e => {
 e.preventDefault();

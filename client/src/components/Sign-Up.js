@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Validation from './Validation'
-
+// set the initial states of signUP to empty strings.
 class SignUp extends Component {
   constructor () {
     super()
@@ -17,33 +17,7 @@ class SignUp extends Component {
       error:"",
     }
   }
-// set up some small functions to set state of these items, used later when submitting the form.  Also a password confirm
-// to make sure the user put in the same password twice.
-First = e => { this.setState({ firstName: e.target.value }) }
 
-Last = e => { this.setState({ lastName: e.target.value }) }
-
-User = e => { this.setState({ user: e.target.value }) }
-
-Pass = e => { this.setState({ password: e.target.value }) }
-
-PassConfirm = e => { this.setState({
-  confirmPass: e.target.value
-})
-  if (e.target.value !== this.state.password){
-    e.target.style.border ='2px red solid'
-    this.setState({
-      validation: true,
-      error: "Password Confirm"
-    })
-  } else {
-    e.target.style.border = '2px #ccc4d8 solid'
-    this.setState({
-      validation: false,
-      error: ""
-    })
-  }
-}
 
 //function used to signup the user, takes in the info the user provides and creates a new entry in the db for users
 // uses the props to login the user once the account is created.
@@ -76,6 +50,31 @@ signUp = (firstName, lastName, user, password) => {
     }
   }
 })
+}
+
+// set up some small functions to set state of these items, used later when submitting the form.  Also a password confirm
+// to make sure the user put in the same password twice.
+First = e => { this.setState({ firstName: e.target.value }) }
+Last = e => { this.setState({ lastName: e.target.value }) }
+User = e => { this.setState({ user: e.target.value }) }
+Pass = e => { this.setState({ password: e.target.value }) }
+
+PassConfirm = e => { this.setState({
+  confirmPass: e.target.value
+})
+  if (e.target.value !== this.state.password){
+    e.target.style.border ='2px red solid'
+    this.setState({
+      validation: true,
+      error: "Password Confirm"
+    })
+  } else {
+    e.target.style.border = '2px #ccc4d8 solid'
+    this.setState({
+      validation: false,
+      error: ""
+    })
+  }
 }
 
 handleSubmit = e => {

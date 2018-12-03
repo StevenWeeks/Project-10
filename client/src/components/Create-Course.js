@@ -18,20 +18,6 @@ class CreateCourse extends Component {
     }
   }
 
-  // functinos used after submit of form, sets the state of the items in the new course
-  ChangeDesc = e => {
-    this.setState({description: e.target.value})
-  }
-  ChangeMats = e => {
-    this.setState({materialsNeeded: e.target.value})
-  }
-  ChangeTime = e => {
-    this.setState({estimatedTime: e.target.value})
-  }
-  ChangeTitle = e => {
-    this.setState({title: e.target.value})
-  }
-
 
 // takes in user provided inputs and posts them to the mongodb server, uses Authorization headers
 // to authorize the post.  After the course is created, push user to the new course detail page.
@@ -64,6 +50,13 @@ createNewCourse = (desc, mats, time, title) => {
     }
   })
 }
+
+// functions used after submit of form, sets the state of the items in the new course
+Desc = e => { this.setState({description: e.target.value}) }
+Mats = e => { this.setState({materialsNeeded: e.target.value}) }
+Time = e => { this.setState({estimatedTime: e.target.value}) }
+Title = e => { this.setState({title: e.target.value}) }
+
 // keep the page from refreshing when submit form, and uses the createNewCourse function to make the new course in the db.
   handleSubmit = e => {
   e.preventDefault();
@@ -90,12 +83,12 @@ render(){
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                     <div>
-                      <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title" onBlur={this.ChangeTitle} />
+                      <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title" onBlur={this.Title} />
                     </div>
                  </div>
                 <div className="course--description">
                 <h4 className="description--label">Description</h4>
-                  <div><textarea id="description" name="description" className="" placeholder="Course description" onBlur={this.ChangeDesc}  >
+                  <div><textarea id="description" name="description" className="" placeholder="Course description" onBlur={this.Desc}  >
                   </textarea>
                 </div>
                   </div>
@@ -106,13 +99,13 @@ render(){
                     <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
                       <div>
-                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Time" onBlur={this.ChangeTime}  />
+                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Time" onBlur={this.Time}  />
                       </div>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
                       <div>
-                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials" onBlur={this.ChangeMats} >
+                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials" onBlur={this.Mats} >
                         </textarea>
                       </div>
                     </li>

@@ -16,12 +16,8 @@ constructor(){
   }
 }
 //functions to use on submit of form
-Name = e => {
-  this.setState({user: e.target.value})
-}
-Pass = e => {
-  this.setState({password: e.target.value})
-}
+Name = e => { this.setState({user: e.target.value}) }
+Pass = e => { this.setState({password: e.target.value}) }
 //prevents page refresh, uses login from props and uses user inputted user and password.
 doSubmit = e => {
   e.preventDefault()
