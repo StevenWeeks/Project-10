@@ -1,5 +1,8 @@
 import React from 'react';
 
+// this is where error messages are handled for signin, singup, and course components
+// props are passed into this, it then checks what the error message says, and passes back
+// an appropriate message for the user to see.  
 const Validation = (props) => {
   console.log(props, "haha")
   let err = props.error

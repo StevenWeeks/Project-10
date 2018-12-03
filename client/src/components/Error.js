@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-
+//just an error page for unexpected errors
 const Error = () => {
   return (
 

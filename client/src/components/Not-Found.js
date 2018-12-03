@@ -1,10 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-
+//simple page to tell the user that the course id they searched for wasn't found.
 const NotFound = () =>{
   return(
     <div className="actions--bar">
-    <div className="grid-100"><Link className="button button-secondary" to="/">Return to List</Link></div>
     <div class="bounds">
 
         <h1>Not Found</h1>

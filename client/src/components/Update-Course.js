@@ -17,7 +17,9 @@ class UpdateCourses extends Component {
         userId:'',
       }
   }
-
+// after a user clicks on a course from the main directory, the app will then load a courses
+// using the props match params in the route provided by app.js to grab a course from the db
+// it then sets the state of course items.  and if it's not the course creator, pushes them to /Forbidden.
   componentDidMount(){
   axios.get(`http://localhost:5000/api/courses/${this.props.match.params.id}`)
   .then (response => {
@@ -45,20 +47,22 @@ class UpdateCourses extends Component {
     }
   })
 }
-
-  ChangeDesc = e => {
+// these are called when the submit button is hit, it sets the state of the
+// items as seen, with the value of the text in the inputs/textareas.
+  Desc = e => {
     this.setState({ description: e.target.value })
   }
-  ChangeMats = e => {
+  Mats = e => {
     this.setState({ materialsNeeded: e.target.value })
   }
-  ChangeTime = e => {
+  Time = e => {
     this.setState({ estimatedTime: e.target.value })
   }
-  ChangeTitle = e => {
+  Title = e => {
     this.setState({ title: e.target.value })
   }
 
+// setup for a redirect used when the cancel button is clicked.  Sends user back to Courses
 setRedirect = () => {
       this.setState({
         redirect: true
@@ -66,11 +70,15 @@ setRedirect = () => {
     }
 renderRedirect = () => {
       if (this.state.redirect) {
-        return <Redirect to='/' />
+        return <Redirect to='/courses' />
       }
 }
+
+// the function that actually updates the course using axios.put, it updates db entry of the course based on the id
+// using headers Authorization to authorize the put command.
+// then pushes the user to the course detail page.  also handles a few errors, which is picked up in validation.js
 courseUpdater = ( descrip, mats, time, title, id) => {
-let speak = JSON.parse(window.localStorage.getItem('auth'))
+let speak = JSON.parse(window.sessionStorage.getItem('auth'))
 axios.put(`http://localhost:5000/api/courses/${id}`, {
 description: descrip,
 estimatedTime: time,
@@ -102,7 +110,8 @@ handleSubmit = e => {
 e.preventDefault();
 this.courseUpdater(this.state.description, this.state.materialsNeeded,  this.state.estimatedTime, this.state.title,  this.state.id);
 }
-
+// this is how validation.js is given the errors to handle, just after the render.  The html in the return statement is rendered when the page
+// loads, had to use onChange here because it set a value, onBlur has no value until blurred, so nothing was being filled in when this loaded with onBlur in the html.
 render(){
   let thisValid
   if (this.state.validation){
@@ -119,12 +128,12 @@ render(){
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <div>
-                <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course Name" onChange={this.ChangeTitle} value={this.state.title}/>
+                <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course Name" onChange={this.Title} value={this.state.title}/>
                 </div>
                 <p>By {this.state.user}</p>
               </div>
               <div className="course--description">
-                <div><textarea id="description" name="description" className="" placeholder="Course description..." onChange={this.ChangeDesc} value={this.state.description}>
+                <div><textarea id="description" name="description" className="" placeholder="Course description..." onChange={this.Desc} value={this.state.description}>
                 </textarea>
               </div>
                 </div>
@@ -135,13 +144,13 @@ render(){
                   <li className="course--stats--list--item">
                     <h4>Estimated Time</h4>
                     <div>
-                    <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" onChange={this.ChangeTime} value={this.state.estimatedTime}/>
+                    <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Time" onChange={this.Time} value={this.state.estimatedTime}/>
                     </div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                    <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." onChange={this.ChangeMats} value={this.state.materialsNeeded}>
+                    <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." onChange={this.Mats} value={this.state.materialsNeeded}>
                     </textarea>
                     </div>
                   </li>

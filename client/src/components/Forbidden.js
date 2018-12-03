@@ -1,6 +1,6 @@
 import React from 'react';
 
-
+//simple page to tell a user they tried to enter an area they aren't allowed
 
 const Forbidden = () => {
   return(

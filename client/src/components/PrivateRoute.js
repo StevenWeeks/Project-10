@@ -4,7 +4,7 @@ import {
     Redirect
   } from 'react-router-dom';
 import {Consumer} from './Context';
-
+//the first private route, made to send users to login when trying to create a course while not logged in.
 const PrivateRoute = ({component: Component, ...rest}) => {
   return (
     <Consumer>
@@ -21,4 +21,4 @@ const PrivateRoute = ({component: Component, ...rest}) => {
   )
 }
 
-export default PrivateRoute;
+export default PrivateRoute

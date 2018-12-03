@@ -11,7 +11,8 @@ class Courses extends Component {
           courses: []
         }
       }
-
+// when the components mount, get the courses from the mongodb, then display them using the CourseLister component.
+// this gets all the courses, takes the response data from that and pushes that over to courselister.js, which then handles how it displays on here.
 componentDidMount(){
 axios.get('http://localhost:5000/api/courses')
 .then (response => {

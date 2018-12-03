@@ -32,6 +32,7 @@ figure,
 font,
 footer,
 form,
+h1,
 h2,
 h3,
 h4,
@@ -57,6 +58,7 @@ nav,
 object,
 ol,
 output,
+p,
 pre,
 progress,
 q,
@@ -93,9 +95,6 @@ xmp {
   font-size: 100%;
 }
 
-h1 {
-  color: white;
-}
 /* line 102, ../sass/reset.sass */
 html,
 body {
@@ -392,11 +391,11 @@ p {
 }
 /* line 137, ../sass/global.sass */
 .course--add--module:hover .course--add--title {
-  color: blue;
+  color: #444;
 }
 /* line 139, ../sass/global.sass */
 .course--add--module:hover .add {
-  fill: blue;
+  fill: #444;
 }
 /* line 141, ../sass/global.sass */
 .course--add--title {
@@ -422,10 +421,6 @@ p {
 .course--detail {
   margin-top: 60px;
 }
-.course--detail h1 {
-  color: white !important;
-}
-
 /* line 162, ../sass/global.sass */
 .course--header {
   margin-bottom: 30px;
@@ -520,7 +515,7 @@ p {
 .course--description h2,
 .course--description h3 {
   font-family: "Work Sans", sans-serif;
-  color: #999;
+  color: #222;
   margin-bottom: 30px;
 }
 /* line 235, ../sass/global.sass */
@@ -543,7 +538,6 @@ p {
   color: #999;
   display: block;
 }
-
 /* line 287, ../sass/global.sass */
 .course--stats--list h4 {
   font-family: "Cousine";
@@ -572,7 +566,6 @@ p {
 .course--stats--list > li ul {
   padding-left: 20px;
 }
-
 /* line 307, ../sass/global.sass */
 .course--stats--list > li li {
   margin-bottom: 15px;

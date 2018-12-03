@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import Validation from './Validation'
-//axios.post
-
 
 class SignUp extends Component {
   constructor () {
@@ -19,16 +17,17 @@ class SignUp extends Component {
       error:"",
     }
   }
+// set up some small functions to set state of these items, used later when submitting the form.  Also a password confirm
+// to make sure the user put in the same password twice.
+First = e => { this.setState({ firstName: e.target.value }) }
 
-onChangeFirst = e => { this.setState({ firstName: e.target.value }) }
+Last = e => { this.setState({ lastName: e.target.value }) }
 
-onChangeLast = e => { this.setState({ lastName: e.target.value }) }
+User = e => { this.setState({ user: e.target.value }) }
 
-onChangeUser = e => { this.setState({ user: e.target.value }) }
+Pass = e => { this.setState({ password: e.target.value }) }
 
-onChangePass = e => { this.setState({ password: e.target.value }) }
-
-onChangePassConfirm = e => { this.setState({
+PassConfirm = e => { this.setState({
   confirmPass: e.target.value
 })
   if (e.target.value !== this.state.password){
@@ -46,7 +45,9 @@ onChangePassConfirm = e => { this.setState({
   }
 }
 
-
+//function used to signup the user, takes in the info the user provides and creates a new entry in the db for users
+// uses the props to login the user once the account is created.
+// any errors and the message of those errors are passed on to validation.js
 signUp = (firstName, lastName, user, password) => {
   axios.post('http://localhost:5000/api/users', {
     firstName: firstName,
@@ -72,7 +73,6 @@ signUp = (firstName, lastName, user, password) => {
     this.setState({
       error: error.response.data.message
     })
-    console.log(this.state)
     }
   }
 })
@@ -81,12 +81,13 @@ signUp = (firstName, lastName, user, password) => {
 handleSubmit = e => {
   e.preventDefault()
   if (this.state.password  === this.state.confirmPass) {
-    this.signUp(this.firstName.value, this.lastName.value, this.user.value, this.password.value)
+    this.signUp(this.state.firstName, this.state.lastName, this.state.user, this.state.password)
   }
 }
 
 
-
+// where validation.js gets the props to use to validate the info provided, and display error messages for the user based
+// on those errors.
   render() {
     let thisValid
     if (this.state.error !== ""){
@@ -100,19 +101,19 @@ handleSubmit = e => {
                 <div>
                   <form onSubmit={this.handleSubmit}>
                     <div>
-                    <input id="firstName" name="firstName" type="text" className="" placeholder="First Name" value={this.state.firstName} onChange={this.onChangeFirst} ref={(input) => this.firstName = input} />
+                    <input id="firstName" name="firstName" type="text" className="" placeholder="First Name"  onBlur={this.First} />
                             </div>
                     <div>
-                    <input id="lastName" name="lastName" type="text" className="" placeholder="Last Name" value={this.state.lastName} onChange={this.onChangeLast} ref={(input) => this.lastName = input} />
+                    <input id="lastName" name="lastName" type="text" className="" placeholder="Last Name" onBlur={this.Last}  />
                             </div>
                     <div>
-                    <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" value={this.state.user} onChange={this.onChangeUser} ref={(input) => this.user = input} />
+                    <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address"  onBlur={this.User}  />
                       </div>
                     <div>
-                    <input id="password" name="password" type="password" className="" placeholder="Password" value={this.state.password} onChange={this.onChangePass} ref={(input) => this.password = input} />
+                    <input id="password" name="password" type="password" className="" placeholder="Password" onBlur={this.Pass}  />
                             </div>
                     <div id="confirmPasswordDiv">
-                    <input id="confirmPassword" name="confirmPassword" type="password" className="" placeholder="Confirm Password" value={this.state.confirmPass} onChange={this.onChangePassConfirm} />
+                    <input id="confirmPassword" name="confirmPassword" type="password" className="" placeholder="Confirm Password"  onBlur={this.PassConfirm} />
                              </div>
 
                     <div className="grid-100 pad-bottom" ><button className="button" type="submit">Sign Up</button><Link to="/"><button className="button button-secondary">Cancel</button></Link></div>
@@ -125,5 +126,5 @@ handleSubmit = e => {
           );
       }
 }
-
+//withRouter needed when using props.history.push/goBack
 export default withRouter(SignUp)

@@ -3,14 +3,16 @@ import axios from 'axios'
 import {Link} from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import UpdateAndDelete from './updateAndDelete'
-
+import {Consumer} from './Context';
 class CourseDetail extends Component {
   constructor(){
     super()
       this.state = {
       }
   }
-
+// details of a course that's gotten from a db.   loads in the id, title, user, etc
+// catches errors for 404 and other, when user tries to goto ids of non-existence Courses
+// or does some other error.
 componentDidMount(){
   axios.get(`http://localhost:5000/api/courses/${this.props.id}`)
   .then (response => {
@@ -33,10 +35,17 @@ componentDidMount(){
   this.props.history.push('/Error')}
 })
 }
+
+// this is what renders on the page, using props and context.  Checks the current users
+// id versus the state of the userId  set for the course, to show the update/delete buttons.
+// items added to materials and description are markdown, so if a user types in the methods
+// to list items, they will appear as items on a list. "* item "
   render(){
-let spot;
-if (this.props.user._id === this.state.userId){
-  console.log("matched")
+return (
+<Consumer>
+{ context => {
+  let spot;
+  if(context.user._id === this.state.userId){
           spot =  <UpdateAndDelete update={`/courses/${this.props.id}/Update`} courseDelete={this.props.courseDelete} user={this.props.user}  id={this.props.id} />
     }
   return (
@@ -55,6 +64,7 @@ if (this.props.user._id === this.state.userId){
               <p>By {this.state.user} </p>
             </div>
             <div className="course--description">
+              <h4 className="course--description"> Description</h4>
               <ReactMarkdown>{this.state.description}</ReactMarkdown>
             </div>
           </div>
@@ -74,8 +84,11 @@ if (this.props.user._id === this.state.userId){
           </div>
         </div>
       </div>
-    )
-  }
+     )
+   }}
+ </Consumer>
+)
+ }
 }
 
   export default CourseDetail

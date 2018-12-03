@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import {Link, withRouter} from 'react-router-dom';
 import Validation from './Validation'
+import {Consumer} from './Context';
 
 class CreateCourse extends Component {
   constructor(){
@@ -16,6 +17,8 @@ class CreateCourse extends Component {
       user:''
     }
   }
+
+  // functinos used after submit of form, sets the state of the items in the new course
   ChangeDesc = e => {
     this.setState({description: e.target.value})
   }
@@ -30,10 +33,12 @@ class CreateCourse extends Component {
   }
 
 
-
+// takes in user provided inputs and posts them to the mongodb server, uses Authorization headers
+// to authorize the post.  After the course is created, push user to the new course detail page.
+// catches error for validation.js
 
 createNewCourse = (desc, mats, time, title) => {
-  let banana = JSON.parse(window.localStorage.getItem('auth'))
+  let banana = JSON.parse(window.sessionStorage.getItem('auth'))
   axios.post('http://localhost:5000/api/courses', {
     title: title,
     description: desc,
@@ -59,19 +64,22 @@ createNewCourse = (desc, mats, time, title) => {
     }
   })
 }
-
-
+// keep the page from refreshing when submit form, and uses the createNewCourse function to make the new course in the db.
   handleSubmit = e => {
   e.preventDefault();
   this.createNewCourse( this.state.description, this.state.materialsNeeded, this.state.estimatedTime, this.state.title);
 }
-
+// where errors for validation are passed so error message can appear for the user when there are errors.
 render(){
   let thisValid
   if (this.state.error !== ""){
         thisValid = <Validation error={this.state.error} />
             }
   return (
+    <Consumer>
+    { context => {
+      if(context.user){
+        return (
     <div className="bounds">
     { thisValid }
       <div className="bounds course--detail">
@@ -82,12 +90,12 @@ render(){
                 <div className="course--header">
                   <h4 className="course--label">Course</h4>
                     <div>
-                      <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title" onChange={this.ChangeTitle} value={this.state.title} />
+                      <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title" onBlur={this.ChangeTitle} />
                     </div>
                  </div>
                 <div className="course--description">
                 <h4 className="description--label">Description</h4>
-                  <div><textarea id="description" name="description" className="" placeholder="Course description" onChange={this.ChangeDesc} value={this.state.description} >
+                  <div><textarea id="description" name="description" className="" placeholder="Course description" onBlur={this.ChangeDesc}  >
                   </textarea>
                 </div>
                   </div>
@@ -98,13 +106,13 @@ render(){
                     <li className="course--stats--list--item">
                       <h4>Estimated Time</h4>
                       <div>
-                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" onChange={this.ChangeTime}  value={this.state.estimatedTime } />
+                        <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Time" onBlur={this.ChangeTime}  />
                       </div>
                     </li>
                     <li className="course--stats--list--item">
                       <h4>Materials Needed</h4>
                       <div>
-                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials" onChange={this.ChangeMats} value={this.state.materialsNeeded } >
+                        <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials" onBlur={this.ChangeMats} >
                         </textarea>
                       </div>
                     </li>
@@ -116,6 +124,10 @@ render(){
         </div>
       </div>
     </div>
+  )
+  }
+  }}
+    </Consumer>
   );
  }
 }

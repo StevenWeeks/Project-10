@@ -4,7 +4,8 @@ import {
     Redirect
   } from 'react-router-dom';
 import {Consumer} from './Context';
-
+// private route made for when someone tries to edit a course they aren't the creator of
+// prepend this to the edit route in app.js
 const PrivateRoute2 = ({component: Component, ...rest}) => {
   return (
     <Consumer>
@@ -21,4 +22,4 @@ const PrivateRoute2 = ({component: Component, ...rest}) => {
   )
 }
 
-export default PrivateRoute2;
+export default PrivateRoute2
